@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:orientation="vertical">
+
+                        <android.support.v7.widget.Toolbar
+                            android:id="@+id/toolbarMain"
+                            android:layout_width="match_parent"
+                            android:layout_height="?android:attr/actionBarSize"
+                            android:background="#B20F0F"
+                            xmlns:android="http://schemas.android.com/apk/res/android"
+                            app:titleTextColor="@color/white"
+                            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+                        </android.support.v7.widget.Toolbar>
+
+                        <ss.com.bannerslider.Slider
+                            android:id="@+id/banner_slider1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:slider_animateIndicators="true"
+                            app:slider_emptyView="@layout/layout_empty_view"
+                            app:slider_indicatorSize="5dp"
+                            app:slider_interval="3000"
+                            app:slider_loopSlides="true"
+                            app:slider_selectedSlideIndicator="@drawable/indicator_circle_selected"
+                            app:slider_unselectedSlideIndicator="@drawable/indicator_circle_unselected"/>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/top_divider"/>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Recently added"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginLeft="20dp"
+                                    android:textStyle="bold"/>
+
+                                <android.support.v7.widget.RecyclerView
+                                    xmlns:android="http://schemas.android.com/apk/res/android"
+                                    android:id="@+id/rvNoteList"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:scrollbars="vertical" />
+
+                        </LinearLayout>
+
+
+                        <android.support.v7.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            app:cardCornerRadius="5dp">
+
+                                <ImageView
+                                    android:id="@+id/imSell1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/bannernew"
+                                    android:layout_margin="7dp"
+                                    android:adjustViewBounds="true"/>
+
+                        </android.support.v7.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                        <TextView
+                                            android:id="@+id/tvCity"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="In your city"
+                                            android:layout_marginTop="10dp"
+                                            android:layout_marginBottom="10dp"
+                                            android:layout_marginLeft="20dp"
+                                            android:textStyle="bold"/>
+
+                                        <TextView
+                                            android:id="@+id/testTV"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="City"
+                                            android:textColor="@color/md_green_700"
+                                            android:layout_marginTop="10dp"
+                                            android:layout_marginBottom="10dp"
+                                            android:layout_marginLeft="20dp"
+                                            android:textStyle="bold"/>
+                                </LinearLayout>
+
+                                <android.support.v7.widget.RecyclerView
+                                    xmlns:android="http://schemas.android.com/apk/res/android"
+                                    android:id="@+id/rvHome1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:scrollbars="vertical" />
+
+                        </LinearLayout>
+
+                        <android.support.v7.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            app:cardCornerRadius="5dp">
+
+                                <ImageView
+                                    android:id="@+id/imSell2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/bannernew2"
+                                    android:layout_margin="7dp"
+                                    android:adjustViewBounds="true"/>
+
+                        </android.support.v7.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                        <TextView
+                                            android:id="@+id/tvCity1"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Recommended for you"
+                                            android:layout_marginTop="10dp"
+                                            android:layout_marginBottom="10dp"
+                                            android:layout_marginLeft="20dp"
+                                            android:textStyle="bold"/>
+
+                                        <TextView
+                                            android:id="@+id/testTV1"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Degree"
+                                            android:textColor="@color/md_green_700"
+                                            android:layout_marginTop="10dp"
+                                            android:layout_marginBottom="10dp"
+                                            android:layout_marginLeft="20dp"
+                                            android:textStyle="bold"/>
+                                </LinearLayout>
+
+                                <android.support.v7.widget.RecyclerView
+                                    xmlns:android="http://schemas.android.com/apk/res/android"
+                                    android:id="@+id/rvHome2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:scrollbars="vertical" />
+
+                        </LinearLayout>
+
+                </LinearLayout>
+
+        </ScrollView>
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:menu="@menu/drawer_view"
+            app:headerLayout="@layout/nav_header"/>
+
+
+
+</android.support.v4.widget.DrawerLayout>
