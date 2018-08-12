@@ -245,6 +245,8 @@ public class SellActivity extends AppCompatActivity {
 
                                         downloadUri = taskSnapshot.getDownloadUrl().toString();
 
+                                        String uid = firebaseAuth.getCurrentUser().getUid();
+
                                         final Map<String, String> bookMap = new HashMap<>();
 
                                         final String ltitle = title.getText().toString();
@@ -268,6 +270,7 @@ public class SellActivity extends AppCompatActivity {
                                         bookMap.put("entryName", entryName);
                                         bookMap.put("sellerMsg", lsellerMsg);
                                         bookMap.put("downloadUri", downloadUri);
+                                        bookMap.put("uid", uid);
 
                                         firestore.collection("books").document(timeStamp + email).set(bookMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
