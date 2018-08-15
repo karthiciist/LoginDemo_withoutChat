@@ -26,4 +26,12 @@
     <string name="settings">Settings</string>
     <string name="logout">Logout</string>
     <string name="title_activity_settings">Settings</string>
+
+    <string name="fragment_tab_home_direct_message_button_label">Select a contact</string>
+    <string name="fragment_user_profile_id_label">ID</string>
+    <string name="fragment_user_profile_logout_label">logout</string>
+
+    <string name="chat_firebase_appId">logindemo</string>
+    <string name="chat_firebase_url">https://login-demo-3c273.firebaseio.com/</string>
+    <string name="chat_firebase_storage_bucket">gs://login-demo-3c273.appspot.com</string>
 </resources>

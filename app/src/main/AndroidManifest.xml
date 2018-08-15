@@ -11,6 +11,7 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <application
+        android:name=".AppContext"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="LoginDemo"
@@ -25,11 +26,11 @@
             android:name=".RegistrationActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".SplashScreenActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
         <activity
             android:name=".SellActivity"
@@ -59,46 +60,19 @@
 
         <activity android:name=".EditMyProfileActivity"/>
 
-        <service android:name="org.chat21.android.notifications.ChatFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+        <activity android:name=".SplashActivity">
 
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-        See README(https://goo.gl/l4GJaQ) for more. -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_notification_small" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-        notification message. See README(https://goo.gl/6BKBk7) for more. -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/blue_500" />
+        </activity>
 
-        <!--A service that extends FirebaseInstanceIdService to handle the creation, rotation,
-        and updating of registration tokens.
-         This is required for sending to specific devices or for creating device groups.-->
-        <service
-            android:name="org.chat21.android.instanceid.service.SaveFirebaseInstanceIdService"
-            tools:ignore="ExportedService">
+        <activity
+            android:name=".TabActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
+                <action android:name="NEW_MESSAGE" />
 
-        <receiver android:name="org.chat21.android.connectivity.NetworkReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </receiver>
-
-        <receiver android:name="org.chat21.android.core.receivers.ShutdownReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
-                <action android:name="android.intent.action.QUICKBOOT_POWEROFF" />
-            </intent-filter>
-        </receiver>
+        </activity>
 
     </application>
 

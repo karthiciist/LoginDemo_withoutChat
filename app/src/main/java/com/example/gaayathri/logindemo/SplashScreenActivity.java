@@ -18,7 +18,15 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.chat21.android.core.ChatManager;
+import org.chat21.android.core.authentication.ChatAuthentication;
+import org.chat21.android.ui.login.activities.ChatLoginActivity;
+
+import static org.chat21.android.utils.DebugConstants.DEBUG_LOGIN;
+
 public class SplashScreenActivity extends AppCompatActivity {
+
+
 
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firestoreDB;
@@ -39,6 +47,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     String email;
 
+    //protected abstract Class<?> getTargetClass();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +58,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash_screen);
 
+        ChatAuthentication.getInstance().setTenant(ChatManager.Configuration.appId);
+        ChatAuthentication.getInstance().createAuthListener(onAuthStateChangeListener);
 
 
         LogoLauncher logoLauncher = new LogoLauncher();
@@ -59,7 +71,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         public void run(){
             try{
-                sleep(500);
+                sleep(100);
             }catch (InterruptedException e){
                 e.printStackTrace();
             }
@@ -127,6 +139,37 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    private static final int LOGIN_REQUEST = 0;
+    private static final int TARGET_REQUEST = 1;
+
+    private ChatAuthentication.OnAuthStateChangeListener onAuthStateChangeListener =
+            new ChatAuthentication.OnAuthStateChangeListener() {
+                @Override
+                public void onAuthStateChanged(FirebaseUser user) {
+                    runDispatch();
+                }
+            };
+
+    private void runDispatch() {
+        Log.d(DEBUG_LOGIN, "ChatSplashActivity.runDispatch");
+        // If current user has already logged in launch the target activity,
+        // else launch the login activity
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            //Log.d(DEBUG_LOGIN, "ChatSplashActivity.runDispatch: user is logged in. Goto : " + getTargetClass().getName());
+            Intent targetIntent = new Intent(this, HomeActivity.class);
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                targetIntent.putExtras(extras);
+            }
+            startActivityForResult(targetIntent, TARGET_REQUEST);
+        } else {
+            Log.d(DEBUG_LOGIN, "ChatSplashActivity.runDispatch: user is not logged in. Goto  ChatLoginActivity");
+            // Send user to login activity
+//            startActivityForResult(getLoginIntent(), LOGIN_REQUEST);
+            startActivityForResult(new Intent(this, MainActivity.class), LOGIN_REQUEST);
+        }
     }
 
 }

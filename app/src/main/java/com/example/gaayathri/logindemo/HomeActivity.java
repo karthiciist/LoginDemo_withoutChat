@@ -52,6 +52,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -62,6 +63,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.like.LikeButton;
 import com.like.OnAnimationEndListener;
 import com.like.OnLikeListener;
@@ -71,6 +73,9 @@ import org.chat21.android.core.ChatManager;
 import org.chat21.android.core.users.models.ChatUser;
 import org.chat21.android.core.users.models.IChatUser;
 import org.chat21.android.ui.ChatUI;
+import org.chat21.android.ui.login.activities.ChatSplashActivity;
+import org.chat21.android.utils.ChatUtils;
+import org.chat21.android.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,9 +87,24 @@ import ss.com.bannerslider.Slider;
 import static com.example.gaayathri.logindemo.SplashScreenActivity.City;
 import static com.example.gaayathri.logindemo.SplashScreenActivity.Degree;
 import static com.example.gaayathri.logindemo.SplashScreenActivity.mypreference;
+import static org.chat21.android.utils.DebugConstants.DEBUG_LOGIN;
 
 
 public class HomeActivity extends AppCompatActivity implements OnLikeListener, OnAnimationEndListener {
+
+    public class SplashActivity extends ChatSplashActivity {
+
+        @Override
+        protected Class<?> getTargetClass() {
+            Log.d(DEBUG_LOGIN, "SplashActivity.getTargetClass");
+            return HomeActivity.class;
+        }
+
+//    @Override
+//    protected Intent getLoginIntent() {
+//        return new Intent(this, ChatLoginActivity.class);
+//    }
+    }
 
     private DrawerLayout mDrawerLayout;
     private static final String TAG = "SecondActivity";
@@ -145,6 +165,18 @@ public class HomeActivity extends AppCompatActivity implements OnLikeListener, O
     TextView noAdsPlaced;
     TextView noLikes;
 
+    /*@Override
+    protected void onResume() {
+        ChatManager.getInstance().getMyPresenceHandler().connect();
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        ChatManager.getInstance().getMyPresenceHandler().dispose();
+        super.onDestroy();
+    }*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,6 +194,9 @@ public class HomeActivity extends AppCompatActivity implements OnLikeListener, O
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
+        SplashActivity splashActivity = new SplashActivity();
+        splashActivity.getTargetClass();
+
         toolbar = findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
 
@@ -171,6 +206,8 @@ public class HomeActivity extends AppCompatActivity implements OnLikeListener, O
         LikeButton likeButton = myDialog.findViewById(R.id.heart_button);
         likeButton.setOnLikeListener(this);
         likeButton.setOnAnimationEndListener(this);
+
+        //ChatUI.getInstance().processRemoteNotification(getIntent());
 
         myDialog2 = new Dialog(this);
         myDialog2.setContentView(R.layout.imageexpanded);
@@ -940,6 +977,37 @@ public class HomeActivity extends AppCompatActivity implements OnLikeListener, O
 
     private void launchChat(){
 
+
+        String token = FirebaseInstanceId.getInstance().getToken();
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference root;
+        if (StringUtils.isValid(ChatManager.Configuration.firebaseUrl)) {
+            root = FirebaseDatabase.getInstance()
+                    .getReferenceFromUrl(ChatManager.Configuration.firebaseUrl);
+        } else {
+            root = FirebaseDatabase.getInstance().getReference();
+        }
+
+        DatabaseReference firebaseUsersPath = root
+                .child("apps/" + ChatManager.Configuration.appId +
+                        "/users/" + firebaseUser.getUid() + "/instances/" + token);
+
+        Map<String, Object> device = new HashMap<>();
+        device.put("device_model", ChatUtils.getDeviceModel());
+        device.put("platform", "Android");
+        device.put("platform_version", ChatUtils.getSystemVersion());
+        device.put("language", ChatUtils.getSystemLanguage(getResources()));
+
+        firebaseUsersPath.setValue(device);
+
+        Intent intent87 = new Intent(HomeActivity.this, TabActivity.class);
+        startActivity(intent87);
+
+
+
+        /*
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
@@ -959,5 +1027,6 @@ public class HomeActivity extends AppCompatActivity implements OnLikeListener, O
 
         ChatUI.getInstance().openConversationsListActivity();
 
+*/
     }
 }
