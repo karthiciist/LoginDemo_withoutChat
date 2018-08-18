@@ -9,7 +9,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import org.chat21.android.core.ChatManager;
+import org.chat21.android.core.users.models.ChatUser;
+import org.chat21.android.core.users.models.IChatUser;
 import org.chat21.android.ui.ChatUI;
 
 import java.util.HashMap;
@@ -27,7 +32,7 @@ public class TabActivity extends AppCompatActivity {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    //private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -43,16 +48,36 @@ public class TabActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        //mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.view_pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        //mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        //mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        //TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        //tabLayout.setupWithViewPager(mViewPager);
+
+        ChatManager.Configuration mChatConfiguration =
+                new ChatManager.Configuration.Builder(getString(R.string.google_app_id))
+                        .firebaseUrl("https://login-demo-3c273.firebaseio.com/")
+                        .storageBucket("gs://login-demo-3c273.appspot.com")
+                        .build();
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        IChatUser iChatUser = new ChatUser();
+        iChatUser.setId(currentUser.getUid());
+        iChatUser.setEmail(currentUser.getEmail());
+
+        ChatManager.start(this, mChatConfiguration, iChatUser);
+
+        ChatUI.getInstance().setContext(this);
+
+        ChatUI.getInstance().openConversationsListActivity();
 
         ChatUI.getInstance().processRemoteNotification(getIntent());
+
+
     }
 
     @Override
@@ -67,32 +92,11 @@ public class TabActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    //    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_tab, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
+
+
+    /*
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         private int tabsCount;
@@ -190,5 +194,5 @@ public class TabActivity extends AppCompatActivity {
                         '}';
             }
         }
-    }
+    }*/
 }

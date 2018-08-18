@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.chat21.android.core.ChatManager;
+import org.chat21.android.core.users.models.ChatUser;
 import org.chat21.android.core.users.models.IChatUser;
 import org.chat21.android.ui.ChatUI;
 import org.chat21.android.ui.contacts.activites.ContactListActivity;
@@ -60,12 +61,12 @@ public class AppContext extends Application {
         // assuming you have a login, check if the logged user (converted to IChatUser) is valid
 //        if (currentUser != null) {
         if (currentUser != null) {
-            IChatUser iChatUser = (IChatUser) IOUtils.getObjectFromFile(instance,
-                    _SERIALIZED_CHAT_CONFIGURATION_LOGGED_USER);
+            //IChatUser iChatUser = (IChatUser) IOUtils.getObjectFromFile(instance,
+            //        _SERIALIZED_CHAT_CONFIGURATION_LOGGED_USER);
 
-//            IChatUser iChatUser = new ChatUser();
-//            iChatUser.setId(currentUser.getUid());
-//            iChatUser.setEmail(currentUser.getEmail());
+            IChatUser iChatUser = new ChatUser();
+            iChatUser.setId(currentUser.getUid());
+            iChatUser.setEmail(currentUser.getEmail());
 
             ChatManager.start(this, mChatConfiguration, iChatUser);
             Log.i(TAG, "chat has been initialized with success");
